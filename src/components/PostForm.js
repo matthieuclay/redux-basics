@@ -1,7 +1,7 @@
 import React, { useState } from "react";
 import { useDispatch } from "react-redux";
 import { useSelector } from "react-redux";
-import { addPosts } from "../actions/post.action";
+import { addPost, getPosts } from "../actions/post.action";
 
 const PostForm = () => {
   const [title, setTitle] = useState("");
@@ -9,7 +9,7 @@ const PostForm = () => {
   const user = useSelector((state) => state.userReducer);
   const dispatch = useDispatch();
 
-  const handleForm = (e) => {
+  const handleForm = async (e) => {
     e.preventDefault();
 
     if (title && content) {
@@ -20,9 +20,10 @@ const PostForm = () => {
         likes: 0,
       };
 
-      dispatch(addPosts(data));
+      await dispatch(addPost(data));
       setTitle("");
       setContent("");
+      dispatch(getPosts());
     }
   };
 
